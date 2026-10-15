@@ -76,6 +76,44 @@ pnpm check         # format:check + lint + typecheck
 CI runs the same checks with GitHub Actions, plus [zizmor](https://zizmor.sh)
 static analysis of the workflows themselves.
 
+### Commit conventions
+
+Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org)
+(e.g. `feat:`, `fix:`, `chore:`, `docs:`). A git hook (`husky` + `commitlint`)
+validates them locally; the CI `Commitlint` job validates them on pull requests.
+
+### Releases (Changesets + Trusted Publishing)
+
+Releases are automated with [Changesets](https://changesets.dev) and [npm
+trusted publishing](https://docs.npmjs.com/trusted-publishers) (OIDC — no npm
+token stored as a secret).
+
+**Adding a changeset** — before merging a change that warrants a release:
+
+```sh
+pnpm changeset        # follow the prompts; a markdown file is added to .changeset/
+git add .changeset && git commit -m "chore: add changeset"
+```
+
+When a changeset is present on `main`, the `Release` workflow opens a "Version
+Packages" pull request that bumps the version and updates the changelog. Merging
+that PR triggers the `pack` → `publish` jobs, which publish to npm via OIDC and
+create a GitHub release with git tags.
+
+**One-time npm setup** — because the package is new, trusted publishing requires
+a one-time bootstrap:
+
+1. Publish the first version manually:
+   ```sh
+   npm login
+   npm publish            # or: pnpm publish --no-git-checks
+   ```
+2. On [npmjs.com](https://npmjs.com) → package settings → add a trusted
+   publisher: GitHub user `valeriobelli`, repository
+   `opencode-openrouter-auto-router-variants`, workflow filename `release.yml`.
+3. After that, all subsequent releases publish automatically from CI with no
+   stored token.
+
 ### Local install in OpenCode
 
 To test a local checkout instead of the published package, point the `plugins`

@@ -44,15 +44,22 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
-    "check": "npm run format:check && npm run lint && npm run typecheck",
-    "prepack": "npm run build"
+    "format": "oxfmt -c .oxfmtrc.ts",
+    "format:check": "oxfmt --check -c .oxfmtrc.ts",
+    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck",
+    "prepack": "npm run build",
+    "changeset": "changeset",
+    "prepare": "husky"
   },
   "dependencies": {
     "@opencode/plugin": "^2.0.29"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "husky": "^9.1.7",
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",
     "typescript": "^5.9.0"
