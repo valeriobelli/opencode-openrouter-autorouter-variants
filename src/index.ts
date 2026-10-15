@@ -39,16 +39,18 @@ const OPENROUTER_PROVIDER_ID = 'openrouter'
  * is a plain string at runtime. Normalize on the way in, and bridge the
  * symmetric write-side mismatch with a single documented cast below.
  */
-const toID = (id: unknown): string => String(id)
+const toID = (id: unknown) => String(id)
 
 export default Plugin.define({
-  id: 'openrouter-variants',
+  id: 'openrouter-auto-router-variants',
   async setup(ctx) {
     await ctx.model.transform((editor) => {
       for (const model of editor.list(OPENROUTER_PROVIDER_ID)) {
         // Skip catalog variants — they already have their own model entries
         // (e.g. "anthropic/claude-sonnet-4:free").
-        if (toID(model.id).includes(':')) continue
+        if (toID(model.id).includes(':')) {
+          continue
+        }
 
         // The model ID sent to the OpenRouter API. For the native OpenRouter
         // provider this equals the OpenCode model ID, but we read `modelID`
@@ -58,7 +60,10 @@ export default Plugin.define({
         // Don't duplicate variants that another plugin or config already added.
         const existing = new Set((model.variants ?? []).map((variant) => toID(variant.id)))
         const toAdd = ROUTING_VARIANTS.filter((id) => !existing.has(id))
-        if (toAdd.length === 0) continue
+
+        if (!toAdd.length) {
+          continue
+        }
 
         editor.update(OPENROUTER_PROVIDER_ID, toID(model.id), (draft) => {
           // New entries are plain objects; the branded variant `id` (see the
