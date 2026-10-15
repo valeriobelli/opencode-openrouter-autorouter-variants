@@ -79,8 +79,10 @@ static analysis of the workflows themselves.
 ### Commit conventions
 
 Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org)
-(e.g. `feat:`, `fix:`, `chore:`, `docs:`). A git hook (`husky` + `commitlint`)
-validates them locally; the CI `Commitlint` job validates them on pull requests.
+(e.g. `feat:`, `fix:`, `chore:`, `docs:`). A [lefthook](https://lefthook.dev)
+hook runs `commitlint` locally on commit; the CI `Commitlint` job validates
+them on pull requests. The pre-commit hook also runs `oxlint`, `oxfmt --check`,
+and `zizmor` (only when `.github/` files are staged).
 
 ### Releases (Changesets + Trusted Publishing)
 
