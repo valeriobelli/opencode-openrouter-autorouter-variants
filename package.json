@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "opencode-openrouter-autorouter-variants",
+  "version": "0.1.0",
+  "description": "OpenCode plugin that adds OpenRouter routing variants (:nitro, :floor, :exacto) as selectable model variants",
+  "keywords": [
+    "model-routing",
+    "opencode",
+    "opencode-plugin",
+    "openrouter",
+    "plugin",
+    "variants"
+  ],
+  "homepage": "https://github.com/valeriobelli/opencode-openrouter-auto-router-variants#readme",
+  "bugs": {
+    "url": "https://github.com/valeriobelli/opencode-openrouter-auto-router-variants/issues"
+  },
+  "license": "MIT",
+  "author": "Valerio Belli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valeriobelli/opencode-openrouter-auto-router-variants.git"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "check": "npm run format:check && npm run lint && npm run typecheck",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@opencode/plugin": "^2.0.29"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
+    "typescript": "^5.9.0"
+  }
+}
