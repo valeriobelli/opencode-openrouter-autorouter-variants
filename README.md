@@ -60,17 +60,21 @@ You can also pin a version:
 
 ## Development
 
-Requires Node.js 20.19+ (or 22.12+) and npm.
+Requires Node.js 24 (see `.node-version`) and pnpm 12 (pinned via the
+`packageManager` field; Corepack and `pnpm/action-setup` both honor it).
 
 ```sh
-npm install
-npm run build        # type-check and emit dist/ (tsc)
-npm run typecheck    # tsc --noEmit
-npm run lint         # oxlint
-npm run format       # oxfmt (write)
-npm run format:check # oxfmt (check only)
-npm run check        # format:check + lint + typecheck
+pnpm install
+pnpm build         # type-check and emit dist/ (tsc)
+pnpm typecheck     # tsc --noEmit
+pnpm lint          # oxlint
+pnpm format        # oxfmt (write)
+pnpm format:check  # oxfmt (check only)
+pnpm check         # format:check + lint + typecheck
 ```
+
+CI runs the same checks with GitHub Actions, plus [zizmor](https://zizmor.sh)
+static analysis of the workflows themselves.
 
 ### Local install in OpenCode
 
